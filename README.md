@@ -74,7 +74,7 @@ The assets are exposed at [`http://localhost:4444`](http://localhost:4444) with 
 
 The repository ships several demo MCP servers that highlight different widget bundles:
 
-- **Pizzaz (Node & Python)** – pizza-inspired collection of tools and components
+- **Pizzaz (Node, Python, & .NET)** – pizza-inspired collection of tools and components
 - **Solar system (Python)** – 3D solar system viewer
 
 Every tool response includes plain text content, structured JSON, and `_meta.openai/outputTemplate` metadata so the Apps SDK can hydrate the matching widget.
@@ -94,6 +94,15 @@ source .venv/bin/activate
 pip install -r pizzaz_server_python/requirements.txt
 uvicorn pizzaz_server_python.main:app --port 8000
 ```
+
+### Pizzaz .NET server
+
+```bash
+cd pizzaz_server_dotnet/PizzazServer
+dotnet run
+```
+
+The .NET server uses the official ModelContextProtocol.AspNetCore package and runs on port 8000 by default. Requires .NET 8.0+ SDK.
 
 ### Solar system Python server
 
