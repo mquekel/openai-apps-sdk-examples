@@ -266,15 +266,15 @@ public static class PizzazHandlers
         var topping = toppingElement.GetString() ?? "";
         var widgetResource = CreateEmbeddedWidgetResource(widget);
 
-        var meta = JsonSerializer.SerializeToNode(new
+        var meta = new JsonObject
         {
-            openai_com_widget = widgetResource,
-            openai_outputTemplate = widget.TemplateUri,
-            openai_toolInvocation_invoking = widget.Invoking,
-            openai_toolInvocation_invoked = widget.Invoked,
-            openai_widgetAccessible = true,
-            openai_resultCanProduceWidget = true
-        }) as JsonObject;
+            ["openai.com/widget"] = JsonSerializer.SerializeToNode(widgetResource),
+            ["openai/outputTemplate"] = widget.TemplateUri,
+            ["openai/toolInvocation/invoking"] = widget.Invoking,
+            ["openai/toolInvocation/invoked"] = widget.Invoked,
+            ["openai/widgetAccessible"] = true,
+            ["openai/resultCanProduceWidget"] = true
+        };
 
         return ValueTask.FromResult(new CallToolResult
         {
@@ -288,20 +288,20 @@ public static class PizzazHandlers
 
     private static JsonObject CreateToolMeta(PizzazWidget widget)
     {
-        return JsonSerializer.SerializeToNode(new
+        return new JsonObject
         {
-            openai_outputTemplate = widget.TemplateUri,
-            openai_toolInvocation_invoking = widget.Invoking,
-            openai_toolInvocation_invoked = widget.Invoked,
-            openai_widgetAccessible = true,
-            openai_resultCanProduceWidget = true,
-            annotations = new
+            ["openai/outputTemplate"] = widget.TemplateUri,
+            ["openai/toolInvocation/invoking"] = widget.Invoking,
+            ["openai/toolInvocation/invoked"] = widget.Invoked,
+            ["openai/widgetAccessible"] = true,
+            ["openai/resultCanProduceWidget"] = true,
+            ["annotations"] = new JsonObject
             {
-                destructiveHint = false,
-                openWorldHint = false,
-                readOnlyHint = true
+                ["destructiveHint"] = false,
+                ["openWorldHint"] = false,
+                ["readOnlyHint"] = true
             }
-        }) as JsonObject ?? new JsonObject();
+        };
     }
 
     private static object CreateEmbeddedWidgetResource(PizzazWidget widget)
